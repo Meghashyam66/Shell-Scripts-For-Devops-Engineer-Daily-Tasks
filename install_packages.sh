@@ -24,15 +24,15 @@ if [ "$pkg_name" = "docker.io" ] || [ "$pkg_name" = "docker" ]
 then
 	service_name="docker"
 
-	echo "#################### Installing $name dependencies ###################### "
+	echo "#################### Installing $pkg_name dependencies ###################### "
 
         sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
 
-	echo "#################### Adding $name Gkeys ############################## "
+	echo "#################### Adding $pkg_name Gkeys ############################## "
 
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -y
 
-	echo "#################### Adding $name Repository ########################"
+	echo "#################### Adding $pkg_name Repository ########################"
 
 	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
 
@@ -48,21 +48,21 @@ then
 
 else
 
-	service_name=$name
+	service_name=$pkg_name
 fi
 
 
-echo " ######################### Installing Package $name ######################## "
+echo " ######################### Installing Package $pkg_name ######################## "
 
 sudo apt install $service_name -y
 
-echo " ######################### Starting $name service ######################### "
+echo " ######################### Starting $pkg_name service ######################### "
 
 sudo systemctl start $service_name 
 
-echo " ######################### Checking $name Status ######################### "
+echo " ######################### Checking $pkg_name Status ######################### "
 
 sudo systemctl status $service_name
 
-echo "########################## $name installation completed! #################### "
+echo "########################## $pkg_name installation completed! #################### "
 
