@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+
+        "appServicePlan1": {
+            "type": "string",
+            "metadata": {
+                "description": "Enter Service Plan Name :"
+            }
+        },
+        "webApp1": {
+            "type": "string",
+            "metadata": {
+                "description": "Enter Web App Name :"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            /*comment*/
+            "name": "[parameters('appServicePlan1')]",
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2024-04-01",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "F1",
+                "capacity": 1
+            },
+            "tags": {
+                "displayName": "[parameters('appServicePlan1')]"
+            },
+            "properties": {
+                "name": "[parameters('appServicePlan1')]"
+            }
+        },
+
+        {
+            "name": "[parameters('webApp1')]",
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2024-04-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/appServicePlan1')]": "Resource",
+                "displayName": "[parameters('webApp1')]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlan1'))]"
+            ],
+            "properties": {
+                "name": "[parameters('webApp1')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlan1'))]"
+            }
+        } 
+        
+    ],
+    "outputs": {}
+}
